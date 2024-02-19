@@ -23,7 +23,7 @@ const {
  * @property {string} [light] Color of light squares
  * @property {string} [dark] Color of dark squares
  * @property {string} [highlight] Color of highlight overlay
- * @property {"merida"|"alpha"|"cheq"} [style] Desired style of pieces
+ * @property {"merida"|"alpha"|"cheq|cheq-bw"} [style] Desired style of pieces
  * @property {boolean} [flipped] Whether the board is to be flipped or not
  */
 /**

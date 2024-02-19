@@ -315,9 +315,9 @@ var imageGenerator = new ChessImageGenerator({
 
 # Piece Style
 
-| Option | Type     | Default | Example          |
-|----------|----------|---------|------------------|
-| style     | *string* | *"merida"* | *"alpha", "cheq"* |
+| Option | Type     | Default | Example             |
+|----------|----------|---------|---------------------|
+| style     | *string* | *"merida"* | *"alpha", "cheq", "cheq-bw"* |
 
 The piece style determines the used style of pieces to create the image.
 
@@ -363,6 +363,17 @@ If set to `true`, the image will be from black's point of view.
     <img width="60" src="./src/resources/cheq/WhiteKnight.png">
     <img width="60" src="./src/resources/cheq/BlackBishop.png">
     <img width="60" src="./src/resources/cheq/WhitePawn.png">
+</div>
+
+- cheq-bw
+
+<div style="flex">
+    <img width="60" src="./src/resources/cheq-bw/BlackKing.png">
+    <img width="60" src="./src/resources/cheq-bw/WhiteQueen.png">
+    <img width="60" src="./src/resources/cheq-bw/BlackRook.png">
+    <img width="60" src="./src/resources/cheq-bw/WhiteKnight.png">
+    <img width="60" src="./src/resources/cheq-bw/BlackBishop.png">
+    <img width="60" src="./src/resources/cheq-bw/WhitePawn.png">
 </div>
 
 - leipzig
