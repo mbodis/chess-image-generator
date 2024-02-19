@@ -7,6 +7,8 @@ export = ChessImageGenerator;
  * @property {string} [dark] Color of dark squares
  * @property {"merida"|"alpha"|"cheq|cheq-bw"} [style] Desired style of pieces
  * @property {boolean} [flipped] Whether the board is to be flipped or not
+ * @property {boolean} [notation] Whether the board is showing notations
+ * @property {boolean} [notationSize] Notation font size
  */
 /**
  * Object constructor, initializes options.
@@ -23,11 +25,13 @@ declare class ChessImageGenerator {
    * @property {string} [dark] Color of dark squares
    * @property {"merida"|"alpha"|"cheq|cheq-bw"} [style] Desired style of pieces
    * @property {boolean} [flipped] Whether the board is to be flipped or not
+   * @property {boolean} [notation] Whether the board is showing notations
+   * @property {boolean} [notationSize] Notation font size
    */
   /**
      * Object constructor, initializes options.
      * @param {Options} [options] Optional options
-    
+
      */
   constructor(options?: Options);
   chess: any;
@@ -36,6 +40,8 @@ declare class ChessImageGenerator {
   dark: string;
   style: "merida" | "alpha" | "cheq" | "cheq-bw";
   ready: boolean;
+  notation: boolean;
+  notationSize: number;
   /**
    * Loads PGN into chess.js object.
    * @param {string} pgn Chess game PGN
@@ -86,4 +92,12 @@ type Options = {
    * Whether the board is to be flipped or not
    */
   flipped?: boolean
+  /**
+   *  show board notations along the sides
+   */
+  notation?: boolean;
+  /**
+   *  font size for notation
+   */
+  notationSize?: number;
 };

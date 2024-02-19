@@ -14,6 +14,7 @@ const {
   defaultDark,
   defaultHighlight,
   defaultStyle,
+  defaultNotationSize,
   filePaths,
 } = require("./config/index");
 /**
@@ -25,6 +26,8 @@ const {
  * @property {string} [highlight] Color of highlight overlay
  * @property {"merida"|"alpha"|"cheq|cheq-bw"} [style] Desired style of pieces
  * @property {boolean} [flipped] Whether the board is to be flipped or not
+ * @property {boolean} [notation] Whether board has notation
+ * @property {boolean} [notationSize] Notation font size
  */
 /**
  * Object constructor, initializes options.
@@ -41,6 +44,8 @@ function ChessImageGenerator(options = {}) {
   this.highlight = options.highlight || defaultHighlight;
   this.style = options.style || defaultStyle;
   this.flipped = options.flipped || false;
+  this.notation = options.notation || false;
+  this.notationSize = options.notationSize || defaultNotationSize;
 
   this.ready = false;
 }
@@ -110,6 +115,16 @@ ChessImageGenerator.prototype = {
       throw new Error("Load a position first");
     }
 
+    // increase padding for notation
+    if (this.notation) {
+      this.padding = [
+        (this.padding[0] ?? 0) + this.notationSize,
+        (this.padding[1] ?? 0) + this.notationSize,
+        (this.padding[2] ?? 0) + this.notationSize,
+        (this.padding[3] ?? 0) + this.notationSize,
+      ];
+    }
+
     const canvas = createCanvas(this.size + this.padding[1] + this.padding[3], this.size + this.padding[0] + this.padding[2]);
     const ctx = canvas.getContext("2d");
 
@@ -128,10 +143,10 @@ ChessImageGenerator.prototype = {
         if ((i + j) % 2 === 0) {
           ctx.beginPath();
           ctx.rect(
-            ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
-            ((this.size / 8) * i) + this.padding[0],
-            this.size / 8,
-            this.size / 8
+              ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
+              ((this.size / 8) * i) + this.padding[0],
+              this.size / 8,
+              this.size / 8
           );
           ctx.fillStyle = this.dark;
           ctx.fill();
@@ -140,10 +155,10 @@ ChessImageGenerator.prototype = {
         if (this.highlightedSquares.includes(coords)) {
           ctx.beginPath();
           ctx.rect(
-            ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
-            ((this.size / 8) * i) + this.padding[0],
-            this.size / 8,
-            this.size / 8
+              ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
+              ((this.size / 8) * i) + this.padding[0],
+              this.size / 8,
+              this.size / 8
           );
           ctx.fillStyle = this.highlight;
           ctx.fill();
@@ -152,22 +167,58 @@ ChessImageGenerator.prototype = {
         const piece = this.chess.get(coords);
 
         if (
-          piece &&
-          piece.type !== "" &&
-          black.includes(piece.type.toLowerCase())
+            piece &&
+            piece.type !== "" &&
+            black.includes(piece.type.toLowerCase())
         ) {
           const image = `resources/${this.style}/${
-            filePaths[`${piece.color}${piece.type}`]
+              filePaths[`${piece.color}${piece.type}`]
           }.png`;
           const imageFile = await loadImage(path.join(__dirname, image));
           await ctx.drawImage(
-            imageFile,
-            ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
-            ((this.size / 8) * i) + this.padding[0],
-            this.size / 8,
-            this.size / 8
+              imageFile,
+              ((this.size / 8) * (7 - j + 1) - this.size / 8) + this.padding[3],
+              ((this.size / 8) * i) + this.padding[0],
+              this.size / 8,
+              this.size / 8
           );
         }
+      }
+    }
+
+    if (this.notation) {
+      const letters = this.flipped ? 'HGFEDCBA' : 'ABCDEFGH';
+      const numbers = this.flipped ? '12345678' : '87654321';
+
+      ctx.fillStyle = "black";
+      ctx.font = "bold " + this.notationSize.toString() + "px serif";
+      for (let r = 0; r < 8; r += 1) {
+        // A-H
+        ctx.fillText(
+            letters[r].toString()
+            ,
+            this.notationSize // notation border
+            + (this.size / 8 / 2) // center of field
+            + (this.size / 8) * r // move to next field
+            - this.notationSize/2 // half of the letter size
+            ,
+            this.size // size
+            + this.notationSize //notation border
+            + this.notationSize //notation border
+            -2 // bottom minimal border
+        );
+
+        // 1-8
+        ctx.fillText(
+            numbers[r].toString()
+            ,
+            2 // left minimal border
+            ,
+            this.notationSize // notation border
+            + (this.size / 8 / 2) // center of field
+            + (this.size / 8) * r // move to next field
+            + this.notationSize/2 // half of the letter size
+        );
       }
     }
 

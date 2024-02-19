@@ -16,6 +16,8 @@ const defaultHighlight = 'rgba(235, 97, 80, 0.8)';
 
 const defaultStyle = 'merida';
 
+const defaultNotationSize = 15;
+
 const filePaths = {
   wp: 'WhitePawn',
   bp: 'BlackPawn',
@@ -41,5 +43,6 @@ module.exports = {
   defaultDark,
   defaultHighlight,
   defaultStyle,
+  defaultNotationSize,
   filePaths,
 };
