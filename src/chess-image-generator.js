@@ -191,7 +191,7 @@ ChessImageGenerator.prototype = {
       const numbers = this.flipped ? '12345678' : '87654321';
 
       ctx.fillStyle = "black";
-      ctx.font = "bold " + this.notationSize.toString() + "px serif";
+      ctx.font = "bold " + this.notationSize.toString() + "px";
       for (let r = 0; r < 8; r += 1) {
         // A-H
         ctx.fillText(
